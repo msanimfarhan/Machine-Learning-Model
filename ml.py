@@ -45,6 +45,8 @@ def estimateCharges(age, w,b):
 #     loss =rmse(target,predictions)
 #     print("RMSE Loss: ",loss)
 #     plt.show()
+    
+
 
 # try_parameters(w,b)
 
@@ -55,15 +57,57 @@ def rmse(target, prediction):
     return np.sqrt(np.mean(np.square(target-prediction)))
 # print(rmse(targets,prediction))
 
-inputs = non_smoker_df[['age']]
-targets = non_smoker_df.charges
-# print('inputs.shape :', inputs.shape)
-# print('targets.shape :', targets.shape)
+# inputs = non_smoker_df[['age']]
+# targets = non_smoker_df.charges
+# # print('inputs.shape :', inputs.shape)
+# # print('targets.shape :', targets.shape)
 
 
-model.fit(inputs, targets)
-prediction = model.predict(inputs)
-print(rmse(targets,prediction))
+# model.fit(inputs, targets)
+# prediction = model.predict(inputs)
+# print(rmse(targets,prediction))
+
+# inputs, target= non_smoker_df[['age','bmi','children']], non_smoker_df['charges']
+# model=LinearRegression().fit(inputs,target)
+# predictions= model.predict(inputs)
+# print(predictions)
+
+
+# print('loss :', loss)
+
+# fig = px.scatter(medical_df, x='age', y='charges', color='smoker')
+# fig.show()
+
+# Creation of New Column
+# fig = sns.barplot(data=medical_df, x='smoker', y='charges')
+# plt.show()
+
+smoker_codes = {'no':0,'yes':1}
+medical_df['smoker_code']=medical_df.smoker.map(smoker_codes)
+
+#Checking corelation 
+# print(medical_df.charges.corr(medical_df.smoker_code))
+
+# inputs, targets = medical_df[['age','bmi','children','smoker_code']], medical_df['charges']
+# model = LinearRegression().fit(inputs,targets)
+# predictions = model.predict(inputs)
+
+# loss=rmse(targets,predictions)
+# print('Loss :', loss)
+
+sex_codes = {'female':0, 'male':1}
+medical_df['sex_code']=medical_df.sex.map(sex_codes)
+
+inputs, targets = medical_df[['age','bmi','children','smoker_code','sex_code']], medical_df['charges']
+model = LinearRegression().fit(inputs,targets)
+predictions = model.predict(inputs)
+
+loss=rmse(targets,predictions)
+print('Loss :', loss)
+
+
+
+
 
 
 
