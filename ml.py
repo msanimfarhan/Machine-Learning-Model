@@ -1,5 +1,6 @@
 from urllib.request import urlretrieve
 from sklearn.linear_model import LinearRegression
+from sklearn import preprocessing
 medical_charges_url = 'https://raw.githubusercontent.com/JovianML/opendatasets/master/data/medical-charges.csv'
 urlretrieve(medical_charges_url, 'medical.csv')
 import numpy as np
@@ -104,6 +105,10 @@ predictions = model.predict(inputs)
 
 loss=rmse(targets,predictions)
 print('Loss :', loss)
+
+enc = preprocessing.OneHotEncoder()
+enc.fit(medical_df[['region']])
+enc.categories_
 
 
 
