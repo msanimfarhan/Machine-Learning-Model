@@ -108,7 +108,10 @@ print('Loss :', loss)
 
 enc = preprocessing.OneHotEncoder()
 enc.fit(medical_df[['region']])
-enc.categories_
+one_hot= enc.transform(medical_df[['region']]).toarray()
+print(one_hot)
+
+
 
 
 
