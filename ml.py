@@ -115,8 +115,12 @@ medical_df[['northeast', 'northwest', 'southeast', 'southwest']] = one_hot
 inputs, targets = medical_df[['age','bmi','children','smoker_code','sex_code','northeast', 'northwest', 'southeast', 'southwest']], medical_df['charges']
 model = LinearRegression().fit(inputs,targets)
 predictions = model.predict(inputs)
+model.coef_
+model.intercept_
+
 loss=rmse(targets,predictions)
 print('Loss :', loss)
+
 
 
 
