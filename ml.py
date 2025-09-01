@@ -99,17 +99,27 @@ medical_df['smoker_code']=medical_df.smoker.map(smoker_codes)
 sex_codes = {'female':0, 'male':1}
 medical_df['sex_code']=medical_df.sex.map(sex_codes)
 
-inputs, targets = medical_df[['age','bmi','children','smoker_code','sex_code']], medical_df['charges']
-model = LinearRegression().fit(inputs,targets)
-predictions = model.predict(inputs)
+# inputs, targets = medical_df[['age','bmi','children','smoker_code','sex_code']], medical_df['charges']
+# model = LinearRegression().fit(inputs,targets)
+# predictions = model.predict(inputs)
 
-loss=rmse(targets,predictions)
-print('Loss :', loss)
+# loss=rmse(targets,predictions)
+# print('Loss :', loss)
 
 enc = preprocessing.OneHotEncoder()
 enc.fit(medical_df[['region']])
 one_hot= enc.transform(medical_df[['region']]).toarray()
-print(one_hot)
+medical_df[['northeast', 'northwest', 'southeast', 'southwest']] = one_hot
+
+
+inputs, targets = medical_df[['age','bmi','children','smoker_code','sex_code','northeast', 'northwest', 'southeast', 'southwest']], medical_df['charges']
+model = LinearRegression().fit(inputs,targets)
+predictions = model.predict(inputs)
+loss=rmse(targets,predictions)
+print('Loss :', loss)
+
+
+
 
 
 
