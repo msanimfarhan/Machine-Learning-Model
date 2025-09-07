@@ -5,7 +5,7 @@ medical_charges_url = 'https://raw.githubusercontent.com/JovianML/opendatasets/m
 urlretrieve(medical_charges_url, 'medical.csv')
 import numpy as np
 import pandas as pd
-
+from sklearn.preprocessing import StandardScaler 
 import plotly.express as px
 import matplotlib
 import matplotlib.pyplot as plt 
@@ -112,17 +112,31 @@ one_hot= enc.transform(medical_df[['region']]).toarray()
 medical_df[['northeast', 'northwest', 'southeast', 'southwest']] = one_hot
 
 
-inputs, targets = medical_df[['age','bmi','children','smoker_code','sex_code','northeast', 'northwest', 'southeast', 'southwest']], medical_df['charges']
+# inputs, targets = medical_df[['age','bmi','children','smoker_code','sex_code','northeast', 'northwest', 'southeast', 'southwest']], medical_df['charges']
+# model = LinearRegression().fit(inputs,targets)
+# predictions = model.predict(inputs)
+# model.coef_
+# model.intercept_
+
+# loss=rmse(targets,predictions)
+# print('Loss :', loss)
+
+numeric_cols = ['age','bmi','children']
+scaler = StandardScaler()
+#learn mean and standard deviation  for each column
+scaler.fit(medical_df[numeric_cols])
+
+scaled_inputs= scaler.transform(medical_df[numeric_cols])
+
+cat_cols = ['smoker_code', 'sex_code', 'northeast', 'northwest', 'southeast', 'southwest']
+categorical_data = medical_df[cat_cols].values
+
+inputs = np.concatenate((scaled_inputs,categorical_data), axis=1)
+targets = medical_df.charges
 model = LinearRegression().fit(inputs,targets)
 predictions = model.predict(inputs)
-model.coef_
-model.intercept_
-
-loss=rmse(targets,predictions)
-print('Loss :', loss)
-
-
-
+loss = rmse(targets, predictions)
+print('Loss:', loss)
 
 
 
