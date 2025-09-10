@@ -1,8 +1,9 @@
 from urllib.request import urlretrieve
 from sklearn.linear_model import LinearRegression
 from sklearn import preprocessing
-medical_charges_url = 'https://raw.githubusercontent.com/JovianML/opendatasets/master/data/medical-charges.csv'
-urlretrieve(medical_charges_url, 'medical.csv')
+# medical_charges_url = 'https://raw.githubusercontent.com/JovianML/opendatasets/master/data/medical-charges.csv'
+dataset_url = 'https://www.kaggle.com/jsphyg/weather-dataset-rattle-package'
+# urlretrieve(medical_charges_url, 'medical.csv')
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler 
@@ -11,6 +12,7 @@ import matplotlib
 import matplotlib.pyplot as plt 
 import seaborn as sns 
 import plotly.io as pio
+import opendatasets as od
 pio.renderers.default = "browser" 
 medical_df = pd.read_csv('medical.csv')
 
@@ -20,11 +22,11 @@ matplotlib.rcParams['figure.figsize'] = (10, 6)
 matplotlib.rcParams['figure.facecolor'] = '#00000000'
 
 model = LinearRegression()
-non_smoker_df = medical_df[medical_df.smoker == 'no']
+# non_smoker_df = medical_df[medical_df.smoker == 'no']
 
 
-def estimateCharges(age, w,b):
-    return w * age + b
+# def estimateCharges(age, w,b):
+#     return w * age + b
 
 # w= 50
 # b =100
@@ -54,8 +56,8 @@ def estimateCharges(age, w,b):
 # # targets = non_smoker_df['charges']
 # # prediction = estimateCharges(non_smoker_df.age,w,b)
 
-def rmse(target, prediction):
-    return np.sqrt(np.mean(np.square(target-prediction)))
+# def rmse(target, prediction):
+#     return np.sqrt(np.mean(np.square(target-prediction)))
 # print(rmse(targets,prediction))
 
 # inputs = non_smoker_df[['age']]
@@ -83,8 +85,8 @@ def rmse(target, prediction):
 # fig = sns.barplot(data=medical_df, x='smoker', y='charges')
 # plt.show()
 
-smoker_codes = {'no':0,'yes':1}
-medical_df['smoker_code']=medical_df.smoker.map(smoker_codes)
+# smoker_codes = {'no':0,'yes':1}
+# medical_df['smoker_code']=medical_df.smoker.map(smoker_codes)
 
 #Checking corelation 
 # print(medical_df.charges.corr(medical_df.smoker_code))
@@ -96,8 +98,8 @@ medical_df['smoker_code']=medical_df.smoker.map(smoker_codes)
 # loss=rmse(targets,predictions)
 # print('Loss :', loss)
 
-sex_codes = {'female':0, 'male':1}
-medical_df['sex_code']=medical_df.sex.map(sex_codes)
+# sex_codes = {'female':0, 'male':1}
+# medical_df['sex_code']=medical_df.sex.map(sex_codes)
 
 # inputs, targets = medical_df[['age','bmi','children','smoker_code','sex_code']], medical_df['charges']
 # model = LinearRegression().fit(inputs,targets)
@@ -106,10 +108,10 @@ medical_df['sex_code']=medical_df.sex.map(sex_codes)
 # loss=rmse(targets,predictions)
 # print('Loss :', loss)
 
-enc = preprocessing.OneHotEncoder()
-enc.fit(medical_df[['region']])
-one_hot= enc.transform(medical_df[['region']]).toarray()
-medical_df[['northeast', 'northwest', 'southeast', 'southwest']] = one_hot
+# enc = preprocessing.OneHotEncoder()
+# enc.fit(medical_df[['region']])
+# one_hot= enc.transform(medical_df[['region']]).toarray()
+# medical_df[['northeast', 'northwest', 'southeast', 'southwest']] = one_hot
 
 
 # inputs, targets = medical_df[['age','bmi','children','smoker_code','sex_code','northeast', 'northwest', 'southeast', 'southwest']], medical_df['charges']
@@ -121,25 +123,25 @@ medical_df[['northeast', 'northwest', 'southeast', 'southwest']] = one_hot
 # loss=rmse(targets,predictions)
 # print('Loss :', loss)
 
-numeric_cols = ['age','bmi','children']
-scaler = StandardScaler()
-#learn mean and standard deviation  for each column
-scaler.fit(medical_df[numeric_cols])
+# numeric_cols = ['age','bmi','children']
+# scaler = StandardScaler()
+# #learn mean and standard deviation  for each column
+# scaler.fit(medical_df[numeric_cols])
 
-scaled_inputs= scaler.transform(medical_df[numeric_cols])
+# scaled_inputs= scaler.transform(medical_df[numeric_cols])
 
-cat_cols = ['smoker_code', 'sex_code', 'northeast', 'northwest', 'southeast', 'southwest']
-categorical_data = medical_df[cat_cols].values
+# cat_cols = ['smoker_code', 'sex_code', 'northeast', 'northwest', 'southeast', 'southwest']
+# categorical_data = medical_df[cat_cols].values
 
-inputs = np.concatenate((scaled_inputs,categorical_data), axis=1)
-targets = medical_df.charges
-model = LinearRegression().fit(inputs,targets)
-predictions = model.predict(inputs)
-loss = rmse(targets, predictions)
-print('Loss:', loss)
+# inputs = np.concatenate((scaled_inputs,categorical_data), axis=1)
+# targets = medical_df.charges
+# model = LinearRegression().fit(inputs,targets)
+# predictions = model.predict(inputs)
+# loss = rmse(targets, predictions)
+# print('Loss:', loss)
 
 
-
+od.download(dataset_url)
 
 
 
