@@ -3,6 +3,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn import preprocessing
 # medical_charges_url = 'https://raw.githubusercontent.com/JovianML/opendatasets/master/data/medical-charges.csv'
 dataset_url = 'https://www.kaggle.com/jsphyg/weather-dataset-rattle-package'
+data_dir='./weather-dataset-rattle-package'
 # urlretrieve(medical_charges_url, 'medical.csv')
 import numpy as np
 import pandas as pd
@@ -13,6 +14,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns 
 import plotly.io as pio
 import opendatasets as od
+import os
 pio.renderers.default = "browser" 
 medical_df = pd.read_csv('medical.csv')
 
@@ -141,11 +143,12 @@ model = LinearRegression()
 # print('Loss:', loss)
 
 
-od.download(dataset_url)
 
 
 
-
+train_csv = pd.read_csv(os.path.join(data_dir, 'weatherAUS.csv'))
+raw_df= train_csv
+print(raw_df)
 
 
 
