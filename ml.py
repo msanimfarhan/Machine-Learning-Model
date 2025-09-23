@@ -148,9 +148,22 @@ model = LinearRegression()
 
 train_csv = pd.read_csv(os.path.join(data_dir, 'weatherAUS.csv'))
 raw_df= train_csv
-print(raw_df)
 
+raw_df.dropna(subset=['RainToday', 'RainTomorrow'], inplace=True)
 
+# fig = px.histogram(raw_df, x='Location', title='Location vs Rainy Days', color='RainToday')
+# fig.show()
+
+# px.histogram(raw_df, 
+#              x='RainTomorrow', 
+#              color='RainToday', 
+#              title='Rain Tomorrow vs. Rain Today')
+
+# px.scatter(raw_df.sample(2000), 
+#            title='Min Temp. vs Max Temp.',
+#            x='MinTemp', 
+#            y='MaxTemp', 
+#            color='RainToday')
 
 
 
